@@ -40,10 +40,9 @@ def lambda_handler(event, context):
         json_request = req.json()
         delivered = json_request['delivered']
         soft_bounced = json_request['softBounces']
-        if percentage(soft_bounced, delivered) > 25:
-            raise Exception('Bouncing is higher than 25%')
-        else:
-            print(percentage(soft_bounced, delivered))
+        if delivered > 0:
+            if percentage(soft_bounced, delivered) > 25:
+                raise Exception('Bouncing is higher than 25%')
         return event['time']
     finally:
         print('Check complete at {}'.format(str(datetime.now())))
